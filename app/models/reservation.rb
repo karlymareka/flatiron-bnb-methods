@@ -43,17 +43,17 @@ class Reservation < ActiveRecord::Base
   end
 
   def listing_is_available
-    if self.listing.reservations.count > 0
+    #if self.listing.reservations.count > 0
         self.listing.reservations.each do |reservation|
           if self.checkin && self.checkout
             if reservation.checkin <= self.checkout && self.checkin <= reservation.checkout
               unless self === reservation
                 errors.add(:checkin, "can't conflict with another reservation")
-              end 
+              end
             end
           end
         end
-      end
+      #end
   end
 
 end

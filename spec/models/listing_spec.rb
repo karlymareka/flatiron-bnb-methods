@@ -220,22 +220,39 @@ describe Listing do
 
 
   describe "#average_review_rating" do
-    before do
-      recent_reservation = Reservation.create(listing: listing, checkin: 10.days.ago, checkout: 5.days.ago, status: 'accepted')
-      older_reservation = Reservation.create(listing: listing, checkin: 30.days.ago, checkout: 29.days.ago, status: 'accepted')
-      review = Review.create(rating: 1, description: 'it was good', reservation_id: recent_reservation.id)
-      other_review = Review.create(rating: 4, description: 'also good', reservation_id: older_reservation.id)
-    end
 
-
-
-    let(:listing) { listing = Listing.create(address: '123 Main Street',
+    let(:listing) {
+      listing = Listing.create(address: '123 Main Street',
                                             listing_type: "private room",
                                             title: "Foo",
                                             description: "Foo",
                                             price: "150.00",
                                             neighborhood: Neighborhood.create,
-                                            host: User.create) }
+                                            host: User.create)
+                                          }
+    before do
+
+      @recent_reservation = Reservation.create(listing: listing, checkin: 10.days.ago, checkout: 5.days.ago, status: 'accepted')
+
+      @older_reservation = Reservation.create(listing: listing, checkin: 30.days.ago, checkout: 29.days.ago, status: 'accepted')
+
+      @review = Review.create(rating: 1, description: 'it was good', reservation_id: @recent_reservation.id)
+
+      @other_review = Review.create(rating: 4, description: 'also good', reservation_id: @older_reservation.id)
+
+    end
+
+  #}
+
+
+
+    # let(:listing) { listing = Listing.create(address: '123 Main Street',
+    #                                         listing_type: "private room",
+    #                                         title: "Foo",
+    #                                         description: "Foo",
+    #                                         price: "150.00",
+    #                                         neighborhood: Neighborhood.create,
+    #                                         host: User.create) }
 
     it 'knows its average ratings from its reviews' do
       listing.reload
