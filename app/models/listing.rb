@@ -17,19 +17,8 @@ class Listing < ActiveRecord::Base
   before_destroy :deactivate_host_status
 
   def average_review_rating
-    #binding.pry
-      @rating_sum = 0.0
-      @reviews = []
-    self.reservations.each do |reservation|
-      if reservation.review
-        @rating_sum += reservation.review.rating
-        @reviews << reservation.review
-      end
-    end
-      if @reviews.count != 0
-        @average_rating = @rating_sum/@reviews.count
-        return @average_rating
-      end 
+    reviews.average(:rating)
+  
   end
 
   private
